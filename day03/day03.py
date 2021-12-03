@@ -11,23 +11,21 @@ print(gamma*epsilon, "\n")
 
 
 # part2
-num_bits = len(data[0])
 
 # oxygen
-oxygen = data.copy()
-for i in range(num_bits):
-    bits = list(zip(*[list(x) for x in oxygen]))[i]
-    counter = Counter(bits).most_common()
-    keep_bit = counter[0][0] if counter[0][1] > counter[1][1] else 1  # sure?
-    # print(counter, keep_bit)
+oxygen = co2 = data
 
-    cpy = oxygen.copy()
-    for o in cpy:
-        if o[i] != keep_bit:
-            cpy.remove(o)
+def most_common(data, i):
+    c = Counter([b[i] for b in data])
+    return "1" if c['0'] == c['1'] else c.most_common()[0][0]
 
-    oxygen = cpy
-    print(len(oxygen))
+for i in range(len(data[0])):
+    if len(oxygen) > 1:
+        oxygen = [x for x in oxygen if x[i] == most_common(oxygen, i)]
+    if len(co2) > 1:
+        co2 = [x for x in co2 if x[i] != most_common(co2, i)]
 
-# print(oxygen)
+
+print(oxygen, co2)
+print("answer:", int(oxygen[0], 2)*int(co2[0], 2))
 

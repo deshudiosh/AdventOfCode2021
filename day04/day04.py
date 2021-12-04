@@ -1,4 +1,5 @@
 import functools
+import math
 import operator
 from dataclasses import dataclass
 from pprint import pprint
@@ -16,30 +17,28 @@ class Field:
 
 class Board:
     def __init__(self, rows_data):
-        self.rows = [[Field(int(v)) for v in d.split(' ') if v] for d in rows_data]
+        self.fields = [Field(int(d)) for d in " ".join(rows_data).split(" ") if d]
 
     def mark_field(self, num: int):
-        for r in self.rows:
-            for field in r:
-                if field.value == num:
-                    field.marked = True
+        for field in self.fields:
+            if field.value == num:
+                field.marked = True
 
     def is_won(self) -> bool:
         is_won = False
-        columns = [list(z) for z in zip(*self.rows)]  # invert rows to columns
 
-        for line in self.rows + columns:
+        split = int(math.sqrt(len(self.fields)))
+        _rows = [self.fields[i:i + split] for i in range(0, len(self.fields), split)]
+        _cols = [list(z) for z in zip(*rows)]  # invert rows to columns
+
+        for line in _rows + _cols:
             if all([field.marked for field in line]):
                 is_won = True
-                break
 
         return is_won
 
     def sum_of_unmarked(self) -> int:
-        # for r in self.rows:
-        #     for field in r:
-        #         if not field
-        return sum([field.value for field in functools.reduce(operator.iconcat, self.rows, []) if not field.marked])
+        return sum([field.value for field in self.fields if not field.marked])
 
 
 data = [d.strip() for d in open('./input.txt', 'r').readlines()]

@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 @dataclass
 class Field:
+    """one of the numbers on the bingo board"""
     value: int
     marked: bool = False
 
@@ -18,7 +19,7 @@ class Board:
         self.did_bingo_already = False
 
     def bingo(self, num) -> bool:
-        # mark the fields if found
+        # mark the field as marked if it's on a board
         for field in self.fields:
             if field.value == num:
                 field.marked = True

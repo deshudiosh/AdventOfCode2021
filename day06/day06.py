@@ -1,5 +1,4 @@
 from collections import Counter
-from typing import List
 
 
 def solve(d, days, msg: str):

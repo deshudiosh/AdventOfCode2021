@@ -1,3 +1,6 @@
+import timeit
+
+
 def fuel_to_align_constant(crab_pos_list):
     possible_alignments = range(min(crab_pos_list), max(crab_pos_list)+1)
     fuel_usages = []
@@ -41,4 +44,4 @@ if __name__ == '__main__':
     data = [int(x) for x in open('./input.txt', 'r').read().split(',')]
     # data = list(map(int, "16,1,2,0,4,2,7,1,2,14".split(',')))
     print(f'Puzzle1: {fuel_to_align_constant(data)}')
-    print(f'Puzzle2: {fuel_to_align_incremental(data)}')
+    print('exec time:', timeit.Timer(lambda: print(f'Puzzle2: {fuel_to_align_incremental(data)}')).timeit(number=1))

@@ -24,7 +24,7 @@ def fuel_to_align_incremental(crab_pos_list):
 
         for pos in crab_pos_list:
             num_steps = abs(pos - p_a)
-            # fuel += sum(range(1, num_steps + 1))  # slow, formula is faster
+            # fuel += sum(range(1, num_steps + 1))  # slow 27sec, formula is faster - below 1sec
 
             """ Sum of arithmetic series = ((n / 2) * (2 * a + (n - 1) * d))
                 Where:

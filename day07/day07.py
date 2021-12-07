@@ -1,6 +1,3 @@
-import itertools
-
-
 def fuel_to_align_constant(crab_pos_list):
     possible_alignments = range(min(crab_pos_list), max(crab_pos_list)+1)
     fuel_usages = []

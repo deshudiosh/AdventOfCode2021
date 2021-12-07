@@ -1,3 +1,6 @@
+import itertools
+
+
 def fuel_to_align_constant(crab_pos_list):
     possible_alignments = range(min(crab_pos_list), max(crab_pos_list)+1)
     fuel_usages = []
@@ -21,7 +24,16 @@ def fuel_to_align_incremental(crab_pos_list):
 
         for pos in crab_pos_list:
             num_steps = abs(pos - p_a)
-            fuel += sum(range(1, num_steps + 1))
+            # fuel += sum(range(1, num_steps + 1))  # slow, formula is faster
+
+            """ Sum of arithmetic series = ((n / 2) * (2 * a + (n - 1) * d))
+                Where:
+                a - First term
+                d - Common difference
+                n - No of terms """
+
+            # simplified formula
+            fuel += int((num_steps / 2) * (2 + (num_steps - 1)))
 
         fuel_usages.append(fuel)
 

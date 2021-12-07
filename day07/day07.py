@@ -21,8 +21,7 @@ def fuel_to_align_incremental(crab_pos_list):
 
         for pos in crab_pos_list:
             num_steps = abs(pos - p_a)
-            for i in range(num_steps):
-                fuel += i+1
+            fuel += sum(range(1, num_steps + 1))
 
         fuel_usages.append(fuel)
 

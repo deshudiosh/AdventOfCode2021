@@ -33,8 +33,9 @@ class Heightmap:
         # spread assigned basins until all non-border locations have assigned basin value
         while len([loc for loc in all_locations if not loc.is_basin_border and not loc.basin]) > 0:
             for loc in [loc for loc in all_locations if loc.basin]:
-                for adj in [adj for adj in loc.adjacent if not adj.basin]:
-                    if loc.value < adj.value and not adj.is_basin_border:
+                # loop only adjacent without already assigned basin number and ones that are not basin-border
+                for adj in [adj for adj in loc.adjacent if not adj.basin and not adj.is_basin_border]:
+                    if loc.value < adj.value:
                         adj.basin = loc.basin
                         self.basins[loc.basin-1].append(adj)
 

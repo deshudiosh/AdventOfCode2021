@@ -1,5 +1,3 @@
-
-
 def puzzle1(data):
     rows = [[int(x) for x in list(row)] for row in data]
     u, v = len(rows[0]), len(rows)
@@ -23,9 +21,13 @@ def puzzle1(data):
     print(f'Puzzle1 sum of risk levels: {sum_risk}')
 
 
+def puzzle2(data):
+
+
 if __name__ == '__main__':
     data_in = [d.strip() for d in open('./input.txt', 'r').readlines()]
-
     # test data
-    # data = "2199943210 3987894921 9856789892 8767896789 9899965678".split(' ')
+    data = "2199943210 3987894921 9856789892 8767896789 9899965678".split(' ')
+
     puzzle1(data_in)
+    puzzle2(data_in)

@@ -1,16 +1,20 @@
 from typing import List
 
 
+openings = ['(', '[', '{', '<']
+closings = [')', ']', '}', '>']
+
+
 def recognize_lines(lines: List[str]):
     corrupted = []
     incomplete = []
 
-    for i, line in enumerate(lines):
+    for line in lines:
         test = ""
         corrupted_char = None
 
         for char in line:
-            if char in ['(', '[', '{', '<']:
+            if char in openings:
                 test += char
             else:
                 last = test[-1:]
@@ -23,23 +27,35 @@ def recognize_lines(lines: List[str]):
                 if match:
                     test = test[:-1]
                 else:
-                    corrupted_char = char
-                    # print(f'line {i + 1} corrupt')
-                    break
+                    if not corrupted_char:  # only first corrupted char matters
+                        corrupted_char = char
 
         if corrupted_char:
             corrupted.append({'line': line, 'char': corrupted_char})
         else:
-            incomplete.append(line)
+            missing_end = [closings[openings.index(sign)] for sign in reversed(test)]
+            incomplete.append({'line': line, 'missing_end': missing_end})
 
     return {'corrupted': corrupted, 'incomplete': incomplete}
 
 
 def puzzle1(lines):
-    corrupted_chars = [line['char'] for line in lines]
-    closings = [')', ']', '}', '>']
+    corrupted_chars = [line['char'] for line in lines['corrupted']]
     points = [3, 57, 1197, 25137]
     print(f'Puzzle1: syntax error score: {sum([points[closings.index(c)] for c in corrupted_chars])}')
+
+
+def puzzle2(lines):
+    scores = []
+    lines = lines['incomplete']
+    for line in lines:
+        score = 0
+        for sign in line['missing_end']:
+            score *= 5
+            score += closings.index(sign)+1
+        scores.append(score)
+
+    print(f'Puzzle2: middle score: {sorted(scores)[len(lines)//2]}')
 
 
 def input_data():
@@ -48,7 +64,8 @@ def input_data():
 
     lines = recognize_lines(data)
 
-    puzzle1(lines['corrupted'])
+    puzzle1(lines)
+    puzzle2(lines)
 
 
 def test_data():
@@ -68,7 +85,8 @@ def test_data():
 
     lines = recognize_lines(data)
 
-    puzzle1(lines['corrupted'])
+    puzzle1(lines)
+    puzzle2(lines)
 
 
 if __name__ == '__main__':

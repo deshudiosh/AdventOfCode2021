@@ -53,7 +53,7 @@ def determine_adjacents_and_lowpoints(_hm):
             if r_idx < _hm.num_rows-1:
                 adjacent.append(_hm.data[r_idx+1][c_idx])
 
-            loc.adjacent = adjacent
+            loc.friends = adjacent
 
             # if is a low point
             if loc.value < min([adj.value for adj in adjacent]):

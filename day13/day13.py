@@ -25,6 +25,9 @@ class Grid:
         maxx = max([d.x for d in self.dots])
         maxy = max([d.y for d in self.dots])
 
+        # ugly oneliner
+        # maxx, maxy = map(max, zip(*([d.x, d.y] for d in self.dots)))
+
         code = ""
         for y in range(maxy+1):
             for x in range(maxx+1):

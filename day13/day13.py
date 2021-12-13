@@ -55,12 +55,7 @@ class Grid:
 
             unique = []
             for dot in self.dots:
-                is_unique = True
-                for u in unique:
-                    if u.x == dot.x and u.y == dot.y:
-                        is_unique = False
-                        break
-                if is_unique:
+                if dot not in unique:
                     unique.append(dot)
 
             self.dots = unique

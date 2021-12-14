@@ -1,7 +1,7 @@
 from collections import Counter, defaultdict
 
 
-def puzzle1(lines, steps: int):
+def solve(lines, steps: int):
     templ, rules_lines = str(lines[:1][0]), lines[2:]
 
     rules = dict()
@@ -56,8 +56,8 @@ def run():
     # comment below to work on test data
     data = [d.strip() for d in open('./input.txt', 'r').readlines()]
 
-    print(f'Puzzle1: {puzzle1(data, 10)}')
-    print(f'Puzzle2: {puzzle1(data, 40)}')
+    print(f'Puzzle1: {solve(data, 10)}')
+    print(f'Puzzle2: {solve(data, 40)}')
 
 
 if __name__ == '__main__':

@@ -1,28 +1,34 @@
-from collections import Counter
+from collections import Counter, defaultdict
 
 
 def puzzle1(lines, steps: int):
-    seq, rules = str(lines[:1][0]), lines[2:]
+    templ, rules_lines = str(lines[:1][0]), lines[2:]
 
-    rules = [{'pair': r[:2], 'ins': r[-1]} for r in rules]
+    rules = dict()
+    for r in rules_lines:
+        rules[r[:2]] = r[-1]
+
+    pair_count = Counter()
+    for i in range(1, len(templ)):
+        pair_count[templ[i-1:i+1]] += 1
+
+    letters = Counter(list(templ))
 
     for _ in range(steps):
-        pairs = []
-        for i in range(1, len(seq)):
-            pairs.append(seq[i-1:i+1])
+        new_pairs = []
+        for pair, count in pair_count.items():
+            ins = rules[pair]
+            left = pair[0] + ins
+            right = ins + pair[1]
+            new_pairs.append((left, count))
+            new_pairs.append((right, count))
+            letters[ins] += count
 
-        new_seq = pairs[0][0]
+        pair_count = defaultdict(lambda: 0)
+        for pair, count in new_pairs:
+            pair_count[pair] += count
 
-        for p in pairs:
-            for r in rules:
-                if r['pair'] == p:
-                    new_seq += r['ins'] + p[1]
-                    break
-
-        seq = new_seq
-
-    c = Counter(list(seq))
-    return max(c.values()) - min(c.values())
+    return max(letters.values()) - min(letters.values())
 
 
 def run():
@@ -47,12 +53,11 @@ def run():
 
     data = [x.strip() for x in test_data.split('\n')]
 
-
-    # input data
-    # data = [d.strip() for d in open('./input.txt', 'r').readlines()]
+    # comment below to work on test data
+    data = [d.strip() for d in open('./input.txt', 'r').readlines()]
 
     print(f'Puzzle1: {puzzle1(data, 10)}')
-    # print(f'Puzzle2: {puzzle1(data, 40)}')
+    print(f'Puzzle2: {puzzle1(data, 40)}')
 
 
 if __name__ == '__main__':
